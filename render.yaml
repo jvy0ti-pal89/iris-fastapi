@@ -1,0 +1,22 @@
+﻿# Render manifest for two web services: API and Streamlit UI
+services:
+  - type: web
+    name: iris-api
+    env: docker
+    plan: free
+    repo: <replace-with-your-github>/<repo-name>
+    branch: main
+    docker:
+      dockerfilePath: Dockerfile
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+
+  - type: web
+    name: iris-ui
+    env: docker
+    plan: free
+    repo: <replace-with-your-github>/<repo-name>
+    branch: main
+    docker:
+      dockerfilePath: Dockerfile
+    startCommand: streamlit run streamlit_app.py --server.port $PORT --server.address 0.0.0.0

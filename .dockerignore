@@ -1,0 +1,15 @@
+﻿.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+.env
+.env.local
+api.log
+iris-fastapi.zip
+.DS_Store
+*.pyo

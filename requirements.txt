@@ -4,3 +4,6 @@ scikit-learn
 joblib
 pandas
 numpy
+streamlit
+pydantic
+python-multipart

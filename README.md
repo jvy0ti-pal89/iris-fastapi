@@ -18,6 +18,12 @@ docker run -e PORT=8000 -p 8000:8000 iris-fastapi:local
 curl http://localhost:8000/health
 curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"sepal_length":5.1,"sepal_width":3.5,"petal_length":1.4,"petal_width":0.2}'
 ```
+
+## CI Status
+
+- CI Status: passing
+- Badge: https://github.com/jvy0ti-pal89/iris-fastapi/actions/workflows/ci.yml/badge.svg
+
 # Iris Classifier - REST API + Web UI
 
 A machine learning project for iris flower classification with FastAPI REST API, Streamlit web UI, Docker containerization, and comprehensive logging.

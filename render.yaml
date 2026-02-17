@@ -1,3 +1,12 @@
+services:
+  - type: web
+    name: iris-fastapi-api
+    env: docker
+    plan: free
+    repo: jvy0ti-pal89/iris-fastapi
+    branch: main
+    buildCommand: docker build -t iris-fastapi:latest .
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
 # Render manifest for two web services: API and Streamlit UI
 services:
   - type: web

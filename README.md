@@ -1,4 +1,24 @@
-﻿# Iris Classifier - REST API + Web UI
+﻿# Iris FastAPI
+
+Simple Iris classifier served with FastAPI.
+
+## 🚀 Live Demo
+
+- App: https://iris-fastapi-idlx.onrender.com
+- Swagger / API docs: https://iris-fastapi-idlx.onrender.com/docs
+
+Note: I observed `503 Service Unavailable` when checking `/docs` and `/health`. After pushing these changes ensure you redeploy on Render and check service logs in the Render dashboard. Common fixes included binding the server to `$PORT` and ensuring `models/iris_model.joblib` is present in the repository so it is copied into the Docker image.
+
+Local Docker test
+
+```bash
+docker build -t iris-fastapi:local .
+docker run -e PORT=8000 -p 8000:8000 iris-fastapi:local
+# then
+curl http://localhost:8000/health
+curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"sepal_length":5.1,"sepal_width":3.5,"petal_length":1.4,"petal_width":0.2}'
+```
+# Iris Classifier - REST API + Web UI
 
 A machine learning project for iris flower classification with FastAPI REST API, Streamlit web UI, Docker containerization, and comprehensive logging.
 

@@ -7,9 +7,12 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files (including models)
+# Copy project files
 COPY . .
-COPY models/ ./models/
+
+# If the serialized model isn't present in the repo, train it during image build
+# This avoids COPY failing when a local `models/` directory wasn't committed.
+RUN sh -c 'if [ ! -f ./models/iris_model.joblib ]; then python train.py; fi'
 
 # Use the PORT environment variable provided by Render
 ENV PORT 8000

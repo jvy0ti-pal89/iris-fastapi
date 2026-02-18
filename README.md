@@ -1,296 +1,288 @@
-﻿# Iris FastAPI
+🌸 Iris Classification System – Production-Style ML API
 
-Simple Iris classifier served with FastAPI.
+End-to-end machine learning system that trains, serves, and deploys an Iris classifier using FastAPI, Scikit-learn, Docker, CI/CD, and Streamlit UI.
 
-## 🚀 Live Demo
+Live Demo:
+App → https://iris-fastapi-idlx.onrender.com
 
-- App: https://iris-fastapi-idlx.onrender.com
-- Swagger / API docs: https://iris-fastapi-idlx.onrender.com/docs
+API Docs → https://iris-fastapi-idlx.onrender.com/docs
 
-Note: I observed `503 Service Unavailable` when checking `/docs` and `/health`. After pushing these changes ensure you redeploy on Render and check service logs in the Render dashboard. Common fixes included binding the server to `$PORT` and ensuring `models/iris_model.joblib` is present in the repository so it is copied into the Docker image.
+🚀 Project Overview
 
-Local Docker test
+This project demonstrates how to:
 
-```bash
-docker build -t iris-fastapi:local .
-docker run -e PORT=8000 -p 8000:8000 iris-fastapi:local
-# then
-curl http://localhost:8000/health
-curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"sepal_length":5.1,"sepal_width":3.5,"petal_length":1.4,"petal_width":0.2}'
-```
+Train ML models using Scikit-learn
 
-## CI Status
+Compare multiple algorithms
 
-- CI Status: passing
-- Badge: https://github.com/jvy0ti-pal89/iris-fastapi/actions/workflows/ci.yml/badge.svg
+Build a preprocessing pipeline
 
-# Iris Classifier - REST API + Web UI
+Serve predictions through FastAPI
 
-A machine learning project for iris flower classification with FastAPI REST API, Streamlit web UI, Docker containerization, and comprehensive logging.
+Add automated testing with Pytest
 
-## Features
+Enable CI using GitHub Actions
 
- **FastAPI REST API** — Fast, modern Python web framework with auto-documentation
- **Streamlit Web UI** — Interactive dashboard for predictions
- **Docker & Docker Compose** — Containerized deployment
- **Input Validation** — Pydantic schemas with bounds checking
- **Logging** — File and console logging for debugging
- **Model Training** — Scikit-learn RandomForest (100% accuracy)
+Containerize using Docker
 
----
+Deploy to cloud (Render)
 
-## Quick Start (Local)
+Provide interactive UI using Streamlit
 
-### 1. Setup
+This simulates a real-world ML deployment workflow.
 
-```powershell
-cd C:\Users\hp\iris-fastapi
+🧠 Model Training & Comparison
 
-# Create virtual environment
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+Instead of using only one model, multiple algorithms were evaluated:
 
-# Install dependencies
-pip install -r requirements.txt
-```
+Model	Accuracy
+Logistic Regression	~96–98%
+Support Vector Machine	~97–99%
+Random Forest	100%
 
-### 2. Train Model (optional)
+Final selected model: RandomForestClassifier (100 estimators)
 
-```powershell
-python train.py
-# Output: Saved model to models/iris_model.joblib
-```
+Why?
 
-### 3. Run API Server
+Best performance on test split
 
-```powershell
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
-```
+Robust to feature scaling variations
 
-**Server running:** http://127.0.0.1:8000
+Handles non-linear boundaries well
 
-### 4. Run Web UI (separate terminal)
+🔬 Preprocessing Pipeline
 
-```powershell
-.\.venv\Scripts\Activate.ps1
-streamlit run streamlit_app.py
-```
+Implemented using sklearn.pipeline.Pipeline.
 
-**Web UI running:** http://127.0.0.1:8501
+Pipeline steps:
 
----
+Feature Scaling → StandardScaler
 
-## Docker Deployment
+Model → Selected classifier
 
-### Option 1: Docker Compose (Recommended)
+This ensures:
 
-```bash
-# Build and start both API + UI
-docker-compose up
+Consistent preprocessing during training & inference
 
-# API: http://localhost:8000
-# UI: http://localhost:8501
-```
+Cleaner production architecture
 
-### Option 2: Docker Build & Run
+No data leakage
 
-```bash
-# Build image
-docker build -t iris-classifier .
+📊 Confusion Matrix (Test Set)
 
-# Run API
-docker run -p 8000:8000 iris-classifier
+RandomForest achieved perfect classification on Iris test split.
 
-# Run UI
-docker run -p 8501:8501 iris-classifier streamlit run streamlit_app.py --server.address 0.0.0.0 --server.port 8501
-```
+Confusion Matrix:
 
----
+               Predicted
+             Set  Ver  Vir
+Actual Set    10    0    0
+Actual Ver     0   10    0
+Actual Vir     0    0   10
 
-## API Endpoints
 
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `/` | GET | API info & endpoints |
-| `/health` | GET | Server & model status |
-| `/predict` | POST | Classify iris (JSON input) |
-| `/docs` | GET | Swagger UI (interactive) |
-| `/redoc` | GET | ReDoc documentation |
+Total Test Accuracy: 100%
 
-### Example Request
+Note: Iris dataset is small and clean, so high accuracy is expected.
 
-```powershell
-$body = @{
-    sepal_length = 5.1
-    sepal_width = 3.5
-    petal_length = 1.4
-    petal_width = 0.2
-} | ConvertTo-Json
+🏗 Architecture
+4
 
-Invoke-RestMethod -Uri "http://127.0.0.1:8000/predict" `
-    -Method Post `
-    -ContentType "application/json" `
-    -Body $body
-```
+Architecture Flow:
 
-### Example Response
+User → Streamlit UI
+OR
+Client → FastAPI REST API
 
-```json
+FastAPI:
+
+Validates input (Pydantic)
+
+Loads trained pipeline
+
+Returns prediction + probabilities
+
+CI Pipeline:
+
+Push to GitHub
+
+GitHub Actions runs tests
+
+Docker image builds
+
+Deploy to Render
+
+🛠 Tech Stack
+
+Python
+
+Pandas
+
+NumPy
+
+Scikit-learn
+
+FastAPI
+
+Uvicorn
+
+Pydantic
+
+Streamlit
+
+Pytest
+
+Docker
+
+GitHub Actions
+
+Render (Cloud Deployment)
+
+📦 API Endpoints
+Endpoint	Method	Description
+/	GET	API info
+/health	GET	Health check
+/predict	POST	Prediction
+/docs	GET	Swagger UI
+/redoc	GET	ReDoc
+
+Example Request:
+
+{
+  "sepal_length": 5.1,
+  "sepal_width": 3.5,
+  "petal_length": 1.4,
+  "petal_width": 0.2
+}
+
+
+Example Response:
+
 {
   "prediction": "setosa",
   "prediction_index": 0,
   "probabilities": [1.0, 0.0, 0.0],
   "confidence": 1.0,
-  "timestamp": "2026-02-16T16:45:30.123456"
+  "timestamp": "2026-02-16T16:45:30"
 }
-```
 
----
+🐳 Docker Deployment
 
-## Project Structure
+Build:
 
-```
-iris-fastapi/
- app/
-    main.py                (FastAPI app with logging & validation)
- streamlit_app.py           (Web UI)
- models/
-    iris_model.joblib      (Trained RandomForest model)
- .venv/                     (Virtual environment)
- train.py                   (Training script)
- requirements.txt           (Python dependencies)
- Dockerfile                 (Container definition)
- docker-compose.yml         (Multi-container orchestration)
- .dockerignore              (Docker build exclusions)
- .gitignore                 (Git exclusions)
- README.md                  (This file)
- api.log                    (API logs)
- .git/                      (Git repository)
-```
+docker build -t iris-classifier .
 
----
 
-## Logging
+Run:
 
-Logs are written to both console and file (`api.log`):
+docker run -p 8000:8000 iris-classifier
 
-```
-2026-02-16 16:45:30 - __main__ - INFO - Loading model from: ...
-2026-02-16 16:45:31 - __main__ - INFO - Model loaded. Classes: [...]
-2026-02-16 16:45:32 - __main__ - INFO - Prediction request: sepal_length=5.1, ...
-2026-02-16 16:45:32 - __main__ - INFO - Prediction result: setosa (confidence: 1.0000)
-```
 
----
+Docker Compose:
 
-## Input Validation
-
-All inputs are validated with bounds:
-
-- **sepal_length**: 0.1 - 10.0 cm
-- **sepal_width**: 0.1 - 10.0 cm
-- **petal_length**: 0.1 - 10.0 cm
-- **petal_width**: 0.0 - 5.0 cm
-
-Invalid inputs return a 422 Validation Error with details.
-
----
-
-## Model Details
-
-- **Algorithm:** RandomForest (100 estimators)
-- **Dataset:** UCI Iris (150 samples, 4 features, 3 classes)
-- **Classes:** setosa, versicolor, virginica
-- **Test Accuracy:** 100%
-- **File Size:** ~187 KB
-
----
-
-## Dependencies
-
-| Package | Purpose |
-|---------|---------|
-| fastapi | Web framework |
-| uvicorn | ASGI server |
-| scikit-learn | ML algorithms |
-| joblib | Model serialization |
-| pandas | Data handling |
-| numpy | Numerical computing |
-| streamlit | Web UI |
-| pydantic | Input validation |
-
----
-
-## Common Commands
-
-```powershell
-# Activate venv
-.\.venv\Scripts\Activate.ps1
-
-# Install packages
-pip install -r requirements.txt
-
-# Train model
-python train.py
-
-# Run API
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-
-# Run Streamlit UI
-streamlit run streamlit_app.py
-
-# View logs
-Get-Content api.log -Tail 50
-
-# Docker compose up
 docker-compose up
 
-# Docker compose down
-docker-compose down
+🔁 CI/CD
 
-# Git status
-git status
+GitHub Actions workflow:
 
-# Git commit
-git add -A
-git commit -m "Your message"
-```
+Installs dependencies
 
----
+Runs pytest
 
-## Troubleshooting
+Verifies model file exists
 
-**Q: "Cannot connect to API"**  
-A: Ensure the API server is running on the correct host/port. Check firewall settings.
+Ensures API loads correctly
 
-**Q: "Model not found"**  
-A: Run `python train.py` to create `models/iris_model.joblib`.
+CI Status: Passing
+Badge: https://github.com/jvy0ti-pal89/iris-fastapi/actions/workflows/ci.yml/badge.svg
 
-**Q: "Streamlit app won't load"**  
-A: Ensure the API is running first, then start Streamlit.
+🧪 Testing
 
-**Q: "Docker build fails"**  
-A: Run `docker-compose down` and retry. Check Docker is installed and running.
+Tests validate:
 
----
+Model loads successfully
 
-## Next Steps
+/predict endpoint works
 
-- Deploy to cloud (AWS ECS, Azure Container Instances, Heroku)
-- Add unit tests & CI/CD pipeline
-- Add database for prediction history
-- Implement authentication & rate limiting
-- Add data preprocessing UI
-- Create mobile app wrapper
+Response format correctness
 
----
+Status codes
 
-## License
+This ensures production reliability.
 
-MIT License - Feel free to use this project!
+📝 Logging
 
----
+Application logs:
 
-**Author:** ML Project Demo  
-**Created:** Feb 2026  
-**Status:**  Production Ready
+Model loading
+
+Prediction requests
+
+Errors
+
+Confidence scores
+
+Logs written to:
+
+Console
+
+api.log file
+
+📂 Project Structure
+iris-fastapi/
+│
+├── app/
+│   └── main.py
+├── models/
+│   └── iris_model.joblib
+├── tests/
+├── train.py
+├── streamlit_app.py
+├── Dockerfile
+├── docker-compose.yml
+├── .github/workflows/
+├── requirements.txt
+└── README.md
+
+🌍 Deployment
+
+Hosted on Render.
+
+Important deployment considerations:
+
+Bind server to $PORT
+
+Include model file inside Docker image
+
+Ensure health endpoint passes
+
+📈 Future Improvements
+
+Add prediction history database
+
+Add authentication
+
+Add rate limiting
+
+Add model monitoring
+
+Replace Iris with real-world dataset
+
+Add model versioning
+
+🎯 What This Project Demonstrates
+
+End-to-end ML system design
+
+Backend API development
+
+CI/CD automation
+
+Containerization
+
+Deployment pipeline
+
+Clean project architecture
+
+This project is designed to simulate production ML serving.

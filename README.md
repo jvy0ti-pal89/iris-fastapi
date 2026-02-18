@@ -86,6 +86,8 @@ Total Test Accuracy: 100%
 Note: Iris dataset is small and clean, so high accuracy is expected.
 
 🏗 Architecture
+<img width="733" height="540" alt="image" src="https://github.com/user-attachments/assets/a26212fb-05e9-4766-aebe-2ea5e92a74cd" />
+
 4
 
 Architecture Flow:

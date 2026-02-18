@@ -1,0 +1,2 @@
+2026-02-17 17:05:43,596 - app.main - INFO - Loading model from: C:\Users\hp\iris-fastapi\models\iris_model.joblib
+2026-02-17 17:05:54,965 - app.main - INFO -  Model loaded. Classes: [np.str_('setosa'), np.str_('versicolor'), np.str_('virginica')]

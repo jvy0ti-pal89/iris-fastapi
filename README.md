@@ -234,17 +234,29 @@ api.log file
 📂 Project Structure
 iris-fastapi/
 │
+
 ├── app/
+
 │   └── main.py
+
 ├── models/
+
 │   └── iris_model.joblib
+
 ├── tests/
+
 ├── train.py
+
 ├── streamlit_app.py
+
 ├── Dockerfile
+
 ├── docker-compose.yml
+
 ├── .github/workflows/
+
 ├── requirements.txt
+
 └── README.md
 
 🌍 Deployment
